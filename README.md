@@ -1,81 +1,46 @@
-# Monorepo Template
+# File Upload & Metadata Extraction Service
 
-A template to create a monorepo SST v3 project. [Learn more](https://sst.dev/docs/set-up-a-monorepo).
+## Objective
 
-## Get started
+Build a service that allows users to upload files, stores them in AWS S3, and triggers a process
+to extract metadata (e.g., file size, type, basic text content if a PDF).
 
-1. Use this template to [create your own repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+## Instructions
 
-2. Clone the new repo.
+1. Create a RESTful API endpoint:
+   - Implement a /upload endpoint that accepts file uploads (e.g., PDF, image) and
+   user provided metadata, for example: author name, expiration date, etc.
+   - Store each file in an S3 bucket and store the user metadata.
+   - If the process is successful, return file_id, otherwise an error message.
+2. Metadata Extraction with AWS Lambda:
+   - Set up a Lambda function to be triggered when a new file is uploaded to the S3
+   bucket.
+   - The Lambda function should extract additional metadata from the file (e.g., file
+   type, size, number of pages if a PDF).
+   - Store this metadata in a DynamoDB table with a unique connection to the file.
+3. Retrieve Metadata:
+   - Implement an additional API endpoint /metadata/{file_id} that allows
+   users to retrieve metadata for a specific file by its unique identifier.
+   
+## Requirements
 
-   ```bash
-   git clone <REPO_URL> MY_APP
-   cd MY_APP
-   ```
+- Use Node.js for the Lambda functions.
+- Deployable on AWS.
+- Clear, modular code with comments explaining each step.
 
-3. Rename the files in the project to the name of your app.
+## Evaluation Criteria
 
-   ```bash
-   npx replace-in-file '/monorepo-template/g' 'MY_APP' '**/*.*' --verbose
-   ```
+- Code Structure & Modularity: Evaluate how well components are separated (API
+  endpoint, S3 storage, Lambda processing).
+- AWS Integration: Ensure correct usage of S3, DynamoDB, and Lambda.
+- Error Handling: Look for comprehensive error handling for file uploads, Lambda
+  triggers, and metadata retrieval.
+- Extra: A README file explaining decisions, challenges faced, and any assumptions
+  made.
 
-4. Deploy!
+# Solution
 
-   ```bash
-   npm install
-   npx sst deploy
-   ```
-
-5. Optionally, enable [_git push to deploy_](https://sst.dev/docs/console/#autodeploy).
-
-## Usage
-
-This template uses [npm Workspaces](https://docs.npmjs.com/cli/v8/using-npm/workspaces). It has 3 packages to start with and you can add more it.
-
-1. `core/`
-
-   This is for any shared code. It's defined as modules. For example, there's the `Example` module.
-
-   ```ts
-   export module Example {
-     export function hello() {
-       return "Hello, world!";
-     }
-   }
-   ```
-
-   That you can use across other packages using.
-
-   ```ts
-   import { Example } from "@aws-monorepo/core/example";
-
-   Example.hello();
-   ```
-
-   We also have [Vitest](https://vitest.dev/) configured for testing this package with the `sst shell` CLI.
-
-   ```bash
-   npm test
-   ```
-
-2. `functions/`
-
-   This is for your Lambda functions and it uses the `core` package as a local dependency.
-
-3. `scripts/`
-
-    This is for any scripts that you can run on your SST app using the `sst shell` CLI and [`tsx`](https://www.npmjs.com/package/tsx). For example, you can run the example script using:
-
-   ```bash
-   npm run shell src/example.ts
-   ```
-
-### Infrastructure
-
-The `infra/` directory allows you to logically split the infrastructure of your app into separate files. This can be helpful as your app grows.
-
-In the template, we have an `api.ts`, and `storage.ts`. These export the created resources. And are imported in the `sst.config.ts`.
-
----
-
-**Join our community** [Discord](https://sst.dev/discord) | [YouTube](https://www.youtube.com/c/sst-dev) | [X.com](https://x.com/SST_dev)
+- Use SST to deploy the infra.
+- Provide 2 options
+  - Recommended: purely lambda based, leveraging S3 upload mechanisms
+  - "Legacy": following the _Instructions_ more precisely: implement `/upload` endpoint that accepts file uploads as a nodejs service instead of lightweight lambda.

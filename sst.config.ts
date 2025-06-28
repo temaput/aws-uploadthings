@@ -3,7 +3,7 @@
 export default $config({
   app(input) {
     return {
-      name: "monorepo-template",
+      name: "aws-uploadthings",
       removal: input?.stage === "production" ? "retain" : "remove",
       protect: ["production"].includes(input?.stage),
       home: "aws",
@@ -11,10 +11,15 @@ export default $config({
   },
   async run() {
     const storage = await import("./infra/storage");
-    await import("./infra/api");
+    const api = await import("./infra/api");
+    const sercvice = await import("./infra/service");
+    const table = await import("./infra/table");
 
     return {
-      MyBucket: storage.bucket.name,
+      UTFiles: storage.bucket.name,
+      UploaderApi: api.uploaderApi.url,
+      UploaderLegacyService: sercvice.uploaderLegacyService.url,
+      UTFileMetadata: table.table.name,
     };
   },
 });

@@ -1,5 +1,5 @@
 {
-  "name": "@aws-uploadthings/core",
+  "name": "@aws-uploadthings/services",
   "type": "module",
   "version": "0.0.0",
   "scripts": {
@@ -13,12 +13,15 @@
   },
   "dependencies": {
     "sst": "*",
-    "zod": "latest",
-    "pdf-parse": "latest",
-    "pdf-parse-debugging-disabled": "latest"
+    "express": "*",
+    "multer": "*",
+    "multer-s3": "*",
+    "@aws-sdk/client-s3": "*"
   },
   "devDependencies": {
     "vitest": "^2",
-    "@types/pdf-parse": "latest"
+    "@types/express": "*",
+    "@types/multer": "*",
+    "@types/multer-s3": "*"
   }
 }

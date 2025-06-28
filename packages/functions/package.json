@@ -1,9 +1,13 @@
 {
-  "name": "@monorepo-template/functions",
+  "name": "@aws-uploadthings/functions",
   "version": "0.0.0",
   "type": "module",
   "dependencies": {
-    "@monorepo-template/core": "*",
+    "@aws-sdk/client-dynamodb": "^3.839.0",
+    "@aws-sdk/client-s3": "^3.839.0",
+    "@aws-sdk/lib-dynamodb": "^3.839.0",
+    "@aws-sdk/s3-request-presigner": "^3.839.0",
+    "@aws-uploadthings/core": "*",
     "sst": "*"
   },
   "devDependencies": {

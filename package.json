@@ -1,10 +1,12 @@
 {
-  "name": "monorepo-template",
+  "name": "aws-uploadthings",
   "version": "0.0.0",
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {},
+  "scripts": {
+    "dev": "sst dev"
+  },
   "devDependencies": {
     "@tsconfig/node22": "^22",
     "typescript": "^5"
