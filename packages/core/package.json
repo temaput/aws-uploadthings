@@ -15,10 +15,11 @@
     "sst": "*",
     "zod": "latest",
     "pdf-parse": "latest",
-    "pdf-parse-debugging-disabled": "latest"
+    "@aws-sdk/client-dynamodb": "latest",
+    "@aws-sdk/lib-dynamodb": "latest",
+    "@aws-sdk/client-s3": "latest"
   },
   "devDependencies": {
-    "vitest": "^2",
     "@types/pdf-parse": "latest"
   }
 }

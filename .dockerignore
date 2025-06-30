@@ -1,0 +1,9 @@
+
+# sst
+.sst
+
+node_modules
+.git
+.github
+*.md
+.env*

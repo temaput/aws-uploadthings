@@ -5,7 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "sst dev"
+    "dev": "sst dev",
+    "deploy": "sst deploy"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22",
