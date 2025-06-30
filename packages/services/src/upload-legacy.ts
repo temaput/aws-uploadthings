@@ -1,5 +1,6 @@
 import express from "express";
 import multer from "multer";
+import crypto from "crypto";
 import { S3Client } from "@aws-sdk/client-s3";
 import multerS3 from "multer-s3";
 import { Resource } from "sst";
@@ -7,8 +8,6 @@ import { Metadata, UserFileMetadata } from "@aws-uploadthings/core/metadata";
 
 const app = express();
 const s3 = new S3Client({});
-
-console.log("Resource.UTFiles.name", Resource.UTFiles.name);
 
 // Configure multer to use S3 for storage
 const upload = multer({
@@ -32,9 +31,13 @@ const upload = multer({
 // 'file' is the name of the form field for the file
 app.post("/upload", upload.single("file"), async (req, res) => {
   // At this point, the file has already been uploaded to S3 by multer-s3
+  // The uploaded file's information is available on req.file
+  if (!req.file) {
+    res.status(400).send("No file uploaded.");
+    return;
+  }
 
   // Serialize all body data as json
-
   let metadata: UserFileMetadata | undefined;
   try {
     metadata = Metadata.parseUserFileMetadata({
@@ -53,11 +56,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   }
   await Metadata.storeUserFileMetadata(fileId, metadata);
 
-  // The uploaded file's information is available on req.file
-  if (!req.file) {
-    res.status(400).send("No file uploaded.");
-    return;
-  }
+
 
   res.status(200).json({
     id: fileId,

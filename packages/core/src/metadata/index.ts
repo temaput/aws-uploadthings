@@ -116,6 +116,13 @@ export namespace Metadata {
       Key: { id },
     });
     const response = await ddb.send(command);
-    return response.Item;
+    
+    // Filter to ensure only processed files are returned
+    // This filters out files that were not uploaded or not processed
+    if (response.Item && response.Item.extractedMetadata) {
+      return response.Item;
+    }
+    
+    return undefined;
   }
 }
